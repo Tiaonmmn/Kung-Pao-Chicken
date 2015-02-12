@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 
 import json, base64, requests, urllib, sys, argparse, httplib, collections
-from read2 import *          
-from create_policy import *
+#from kpc import *          
+#from create_policy import *
 # Please edit below.  You can find these information from HALO "[Site Administration] -> [API Keys]" page
 api_key_id = "313f442e"
 api_secret_key = "4cbe23f66822b8bbc9957705e3399198"
@@ -35,7 +35,6 @@ def latest_IP():
         latest_IP.append((entry['name'], entry['id']))
     return latest_IP
     
-
 def latest_Service():
     connection.request("GET", "/v1/firewall_services",'',tokenheader)
     response = connection.getresponse()
@@ -66,14 +65,26 @@ def latest_Interface():
         latest_Interface.append((entry['name'], entry['id']))
     return latest_Interface
 
-print latest_Service()
-print latest_IP()
-print "+++++++++++++++"
-print latest_Interface()
-for k,v in latest_IP():
-    print k + "and" + v
- 
-#print json.dumps(IPdata, indent = 2)
+def get_IPzones():
+    connection.request("GET", "/v1/firewall_zones",'',tokenheader)
+    response = connection.getresponse()
+    jsondata =  response.read().decode()
+    IPdata = json.loads(jsondata)
+    return IPdata 
+    
+def get_Services():
+    connection.request("GET", "/v1/firewall_services",'',tokenheader)
+    response = connection.getresponse()
+    jsondata =  response.read().decode()
+    Servicedata = json.loads(jsondata)
+    return Servicedata
+    
+def get_interfaces():
+    connection.request("GET", "/v1/firewall_interfaces",'',tokenheader)
+    response = connection.getresponse()
+    jsondata =  response.read().decode()
+    Interfacesdata = json.loads(jsondata)
+    return Interfacesdata
 
 ###############################  API PUT Calls  #################################################
 
@@ -106,32 +117,4 @@ def post_firewallPolicy(reqbody):
     response = connection.getresponse()
     respbody =  response.read().decode('ascii', 'ignore')
     connection.close()
-
-service1 = {'firewall_service': [{'protocol': 'tcp', 'name': 'TCP/873', 'port': '873'}, {'protocol': 'tcp', 'name': 'TCP/422', 'port': '422'}]}
-
-
-rules2 = {
-    "firewall_policy": {
-        "name" : "first_creation_test",
-        "platform" : "linux",
-        "firewall_rules":[ 
-      {
-        "action": "ACCEPT", 
-        "log": False, 
-        "chain": "INPUT", 
-        "active": True, 
-        "connection_states": "NEW,ESTABLISHED", 
-        "firewall_interface": "eab30a009956012ee2db4040ebe4a8e4",
-        "firewall_source": {"id":"cb263f8093b60132f21e3c764e10c221", "type": "FirewallZone"},
-        "firewall_service": "18cec420945501326cc83c764e108057", 
-
-      }]
         
-    }    
-}
-        
-        
-#post_IPzones(zones)
-post_Services(services)
-#post_interfaces(interfaces)
-#post_firewallPolicy(policies)

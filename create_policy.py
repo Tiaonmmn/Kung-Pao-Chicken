@@ -1,6 +1,6 @@
 import json 
-from read2 import read_Iptables
-from get_info import *
+from kpc import read_Iptables
+from api import latest_IP, latest_Service, latest_Interface
 
 mylist_input, mylist_output = read_Iptables()
 print "print mylist following read_Iptables()"
