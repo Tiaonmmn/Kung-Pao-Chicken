@@ -1,0 +1,66 @@
+Chain INPUT (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+  171  9432 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            multiport dports 22,80,443 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp spt:22 state ESTABLISHED
+   14  5605 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp spt:443 state ESTABLISHED
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8
+    0     0 ACCEPT     all  --  lo     *       0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     tcp  --  eth0   *       192.168.101.0/24     0.0.0.0/0            tcp dpt:873 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  eth0   *       192.168.200.0/24     0.0.0.0/0            tcp dpt:3306 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:25 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:143 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:993 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:110 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:995 state NEW,ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:80 limit: avg 25/min burst 100
+    0     0 ACCEPT     tcp  --  eth0   *       0.0.0.0/0            0.0.0.0/0            tcp dpt:422 state NEW,ESTABLISHED
+    0     0 LOGGING    all  --  *      *       0.0.0.0/0            0.0.0.0/0  
+    0     0 ACCEPT     tcp  --  *      *       50.57.179.191        0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED 
+    0     0 ACCEPT     tcp  --  *      *       104.130.217.203      0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED 
+    0     0 ACCEPT     tcp  --  *      *       104.130.217.218      0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED 
+    0     0 ACCEPT     tcp  --  *      *       104.130.217.220      0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED 
+    0     0 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED udp spt:53 
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED tcp spt:53 
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp spt:80 state RELATED,ESTABLISHED 
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:22 
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0            
+    0     0 LOG        all  --  *      *       108.196.220.155      0.0.0.0/0            LOG level warning 
+    0     0 ACCEPT     all  --  *      *       108.196.220.155      0.0.0.0/0            
+    0     0 ACCEPT     all  --  *      *       206.169.29.82        0.0.0.0/0            
+    0     0 LOG        all  --  *      *       109.161.233.132      0.0.0.0/0            LOG level warning
+    0     0 DROP       all  --  *      *       109.161.233.132      0.0.0.0/0            
+    0     0 DROP       all  --  *      *       109.63.70.87         0.0.0.0/0            
+    0     0 DROP       all  --  *      *       109.63.95.45         0.0.0.0/0            
+    0     0 DROP       all  --  etho10 *       115.231.222.45       0.0.0.0/0            
+    0     0 DROP       all  --  etho20 *       115.231.223.170      0.0.0.0/0            
+    0     0 ACCEPT     51   --  *      *       0.0.0.0/0            0.0.0.0/0             
+    0     0 ACCEPT     20   --  *      *       0.0.0.0/0            0.0.0.0/0             
+    0     0 ACCEPT     104  --  *      *       0.0.0.0/0            0.0.0.0/0             
+
+Chain FORWARD (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     all  --  eth0   eth1    0.0.0.0/0            0.0.0.0/0           
+
+Chain OUTPUT (policy DROP 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+   90  6608 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            multiport sports 22,80,443 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp dpt:22 state NEW,ESTABLISHED
+   12  2390 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp dpt:443 state NEW,ESTABLISHED
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 8
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            icmptype 0
+    0     0 ACCEPT     all  --  *      lo      0.0.0.0/0            0.0.0.0/0           
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:873 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:3306 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:25 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:143 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:993 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:110 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:995 state ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      eth0    0.0.0.0/0            0.0.0.0/0            tcp spt:422 state ESTABLISHED
+
+Chain LOGGING (1 references)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 LOG        all  --  *      *       0.0.0.0/0            0.0.0.0/0            limit: avg 2/min burst 5 LOG flags 0 level 7 prefix "IPTables Packet Dropped: "
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
