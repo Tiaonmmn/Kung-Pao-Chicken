@@ -14,7 +14,7 @@ def read_Iptables():
     mylist_input =[]
     mylist_output =[]
 
-    text_file = open('LDS_test.txt', 'r')
+    text_file = open('iptables_test.txt', 'r')
     for line in text_file:
         tokens = re.split(r"[' ']+", line)
 
