@@ -6,6 +6,7 @@ from collections import defaultdict
 from api import * 
 #def read_Iptables()
 
+#REPLACE IPTABLES BELOW WITH THIS CODE...
 #    text_file = open('LDS_test.txt', 'r')
 #    chain = iptc.Chain(iptc.Table(iptc.Table.FILTER), "INPUT")
 #    chain = iptc.Chain(iptc.pyTable(iptc.Table.FILTER), "OUTPUT")

@@ -1,8 +1,6 @@
 #!/usr/bin/env python
-
 import json, base64, requests, urllib, sys, argparse, httplib, collections
-#from kpc import *          
-#from create_policy import *
+       
 # Please edit below.  You can find these information from HALO "[Site Administration] -> [API Keys]" page
 api_key_id = "313f442e"
 api_secret_key = "4cbe23f66822b8bbc9957705e3399198"
