@@ -1,7 +1,8 @@
 import json
 
 from read_Iptables import read_Iptables
-from api import latest_Service, latest_IP, latest_Interface, post_Services, get_IPzones, get_Services, get_interfaces
+from api import get_IPzones, get_Services, get_interfaces
+from api import latest_IP, latest_Service, latest_Interface, post_Services
 from kpc import create_IPzone, create_networkService, create_networkInterface
 from kpc import existing_IPzone, existing_service, existing_interfaces
 from create_policy import create_Policy
@@ -18,6 +19,7 @@ print"++++++++++++++++++++++++++++++++++++"
 latest_IP = latest_IP()
 latest_Service = latest_Service()
 latest_Interface = latest_Interface()
+
 #from get_info
 print latest_Service
 print latest_IP
