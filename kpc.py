@@ -10,6 +10,8 @@ from api import *
 #    text_file = open('LDS_test.txt', 'r')
 #    chain = iptc.Chain(iptc.Table(iptc.Table.FILTER), "INPUT")
 #    chain = iptc.Chain(iptc.pyTable(iptc.Table.FILTER), "OUTPUT")
+#
+# OR ... use Eddie's script to get Iptables.  That way, admins can see what their firewall rules are before we blow them away
 
 def read_Iptables():
     mylist_input =[]
