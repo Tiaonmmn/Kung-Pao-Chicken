@@ -1,4 +1,4 @@
-# Kung Pao Chicken
+# Generate Firewall Rules
 Translates Iptables into Halo Firewall Policies
 
 (WARNING : Halo Firewall Policies will overwrite the current Iptables)
@@ -36,7 +36,7 @@ Launch locally as :
 
 ##Usage
 
-Running Kung Pao Chicken, aka `ConvertIPtablesToHaloFirewallPolicies.py`, will input an IPtable, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
+Running Generate Firewall Rules, aka rgf.py, will input an IPtable, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
 
 coming soon:
-Running Kung Pao Chicken, aka `ConvertIPtablesToHaloFirewallPolicies.py`, will input a list of IP addresses, access those servers, retrieve their IPtables, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
+Running Kung Pao Chicken, aka rgf.py, will input a list of IP addresses, access those servers, retrieve their IPtables, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
