@@ -2,18 +2,6 @@ import json
 from kpc import read_Iptables
 from api import latest_IP, latest_Service, latest_Interface
 
-mylist_input, mylist_output = read_Iptables()
-print "print mylist following read_Iptables()"
-print mylist_input
-print mylist_output
-latest_IP = latest_IP()
-latest_Service = latest_Service()
-IMP =[]
-for k,v in latest_Service:
-    if k== "ICMP/0":
-        IMP.append(v)
-print IMP
-latest_Interface = latest_Interface()
 def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface):
     policy ={}
     policy_count = 0 #for naming 
@@ -74,6 +62,18 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
     policy = {'firewall_policy': dict1}
     return policy
  
+mylist_input, mylist_output = read_Iptables()
+print "print mylist following read_Iptables()"
+print mylist_input
+print mylist_output
+latest_IP = latest_IP()
+latest_Service = latest_Service()
+IMP =[]
+for k,v in latest_Service:
+    if k== "ICMP/0":
+        IMP.append(v)
+print IMP
+latest_Interface = latest_Interface()
 
 policies = create_Policy(mylist_input, mylist_output,latest_IP, latest_Service, latest_Interface)   
 print json.dumps(create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface), indent = 4 )
