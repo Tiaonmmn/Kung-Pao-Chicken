@@ -1,7 +1,3 @@
-import json 
-from read_Iptables import read_Iptables
-from api import latest_IP, latest_Service, latest_Interface
-
 def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface):
 
     policy ={}

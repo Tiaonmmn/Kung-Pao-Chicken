@@ -1,13 +1,9 @@
-import re
 import json
-import collections
-import re
-from collections import defaultdict
 
-from api import latest_Service, latest_IP, latest_Interface, post_Services
 from read_Iptables import read_Iptables
-from kpc import get_IPzones, get_Services, get_interfaces, existing_IPzone, existing_service, existing_interfaces
+from api import latest_Service, latest_IP, latest_Interface, post_Services, get_IPzones, get_Services, get_interfaces
 from kpc import create_IPzone, create_networkService, create_networkInterface
+from kpc import existing_IPzone, existing_service, existing_interfaces
 from create_policy import create_Policy
 
 # Get Iptables

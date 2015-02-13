@@ -1,9 +1,3 @@
-import re
-import json
-import collections
-from collections import defaultdict
-from api import * 
-
 # Create dictionary for existing ipzones
 def existing_IPzone(jsondata):
     existing_IP ={}

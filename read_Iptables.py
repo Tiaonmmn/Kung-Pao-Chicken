@@ -1,9 +1,4 @@
 import re
-import json
-import collections
-import re
-from collections import defaultdict
-from api import *
 
 #REPLACE IPTABLES BELOW WITH THIS CODE...
 #    text_file = open('LDS_test.txt', 'r')
