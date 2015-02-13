@@ -36,7 +36,7 @@ Launch locally as :
 
 ##Usage
 
-Running `ConvertIPtablesToHaloFirewallPolicies.rb` will input a list of IP addresses, access those servers, retrieve their IPtables, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
+Running Kung Pao Chicken, aka `ConvertIPtablesToHaloFirewallPolicies.py`, will input an IPtable, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
 
-
-
+coming soon:
+Running Kung Pao Chicken, aka `ConvertIPtablesToHaloFirewallPolicies.py`, will input a list of IP addresses, access those servers, retrieve their IPtables, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
