@@ -62,7 +62,7 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
     policy = {'firewall_policy': dict1}
     return policy
  
- mylist_input, mylist_output = read_Iptables()
+mylist_input, mylist_output = read_Iptables()
 print "print mylist following read_Iptables()"
 print mylist_input
 print mylist_output
