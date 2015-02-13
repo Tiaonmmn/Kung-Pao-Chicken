@@ -68,7 +68,6 @@ def read_Iptables():
             print "flag=x.  something's wrong"
     return mylist_input, mylist_output 
 
-
 # Create dictionary for existing ipzones
 def existing_IPzone(jsondata):
     existing_IP ={}
@@ -214,8 +213,3 @@ zones = create_IPzone(mylist_input, mylist_output, existing_IP)
 services = create_networkService(mylist_input,mylist_output,existing_Service)
 interfaces = create_networkInterface(mylist_input,mylist_output,existing_Interfaces)
 print services
-
-#ofile = open("log.json",'w')
-#ofile.write(json.dumps(listrule, indent =2 ))
-#print ofile
-#ofile.close()
