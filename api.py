@@ -20,6 +20,8 @@ key = data['access_token']
 
 tokenheader = {"Authorization": 'Bearer ' + key, "Content-type": "application/json"}
 
+connection.close()
+
 ################################ API GET Calls ######################################################
 
 def latest_IP():
