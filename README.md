@@ -18,6 +18,7 @@ Authors: *Hana Lee* - *hlee@cloudpassage.com*
 * **gfr.py**   RUN THIS ONE ~ GENERATE FIREWALL RULES.
 * **kpc.py**   Secret sauce and I forget what. (hana to please rename and fix this line...?)
 * **read_Iptables.py**   Read Iptables from current directory
+* *iptables.py**  Standalone program for generating iptables to be consumed by HaloFirewallPolicyGenerator
 * **license.txt**   The cure for insomnia
 
 ###Usage:
