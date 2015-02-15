@@ -4,7 +4,6 @@ Translates Iptables into Halo Firewall Policies
 (WARNING : Halo Firewall Policies will overwrite the current Iptables)
 
 Authors: *Hana Lee* - *hlee@cloudpassage.com*
-*         *David Sackmary* - *dsackmary@cloudpassage.com*
          
 ##Requirements and Dependencies
 * json
