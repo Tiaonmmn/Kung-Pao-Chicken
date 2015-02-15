@@ -3,8 +3,9 @@ Translates Iptables into Halo Firewall Policies
 
 (WARNING : Halo Firewall Policies will overwrite the current Iptables)
 
-Author: *Hana Lee* - *hlee@cloudpassage.com*
-
+Authors: *Hana Lee* - *hlee@cloudpassage.com*
+         *David Sackmary* - *dsackmary@cloudpassage.com*
+         
 ##Requirements and Dependencies
 * json
 * rest-client
@@ -19,13 +20,11 @@ Author: *Hana Lee* - *hlee@cloudpassage.com*
 * **kpc.py**   Secret sauce and I forget what. (hana to please rename and fix this line...?)
 * **read_Iptables.py**   Read Iptables from current directory
 * **license.txt**   The cure for insomnia
-* **repgen.py**   RUN THIS ONE.  Accepts -s SearchString or -a for all.  Optionally declare another config file with -c
-* **server.py**   Server object definition
 
 ###Usage:
 
 
->repgen.py (-s SEARCHPREFIX|-a) [-c CONFIGFILE]
+>gfr.py -s serverlist (or something like that....)
 
 ##Installation 
 
