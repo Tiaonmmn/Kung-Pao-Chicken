@@ -25,6 +25,44 @@ args = parser.parse_args()
 
 server_list = list(csv.reader(open(args.input, 'rb'), delimiter=' ', skipinitialspace=True))
 
+def create_Iptables(ip, id, password, keypair, terminal_buffer):
+    terminal_buffer += "\n[" + ip + ']\n'
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    ssh.connect(ip, username=id, password=password, key_filename=keypair)
+
+    chan = ssh.invoke_shell()
+    temp_buffer = ''
+
+    time.sleep(3)
+    chan.send('sudo su - \n')
+    buffer = chan.recv(9999)
+    if args.debug: print ("%s\n" % buffer)
+    temp_buffer += buffer
+
+    iptables = subprocess.Popen("sudo iptables -L", stdout=subprocess.PIPE, shell=True).stdout.read()
+    print iptables
+
+    time.sleep(1)
+    chan.send("sudo  iptables -L")
+    buffer = chan.recv(9999)
+    if args.debug: print ("%s\n" % buffer)
+    temp_buffer += buffer
+
+    time.sleep(5)
+    chan.send("\n\n")
+    buffer = chan.recv(9999)
+    if args.debug: print ("%s\n" % buffer)
+    temp_buffer += buffer
+
+    terminal_buffer += temp_buffer
+    terminal_buffer += "\n================================================================"
+    ssh.close()
+
+    return terminal_buffer
+
+terminal_buffer =''
+
 for server in server_list:
     ip = server[0]
     id = server[1]
@@ -35,11 +73,4 @@ for server in server_list:
         keypair = args.keypair
     if args.debug:
         print ('Server IP: %s\nLogin ID: %s\nLogin Password: %s\nKeypair: %s\n' % (ip, id, password, keypair))
-
-    iptables = subprocess.Popen("sudo iptables -L", stdout=subprocess.PIPE, shell=True).stdout.read()
-    print iptables
-
-
-
-
-
+    terminal_buffer = create_Iptables(ip, id, password, keypair, terminal_buffer)
