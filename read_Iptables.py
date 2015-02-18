@@ -15,11 +15,11 @@ def read_Iptables():
     special_input =[]
     special_output = []
     chain = []
-    text_file = open('LDS_test.txt', 'r')
+    text_file = open('hana1.txt', 'r')
 
     for line in text_file:
         tokens = re.split(r"[' ']+", line)
-
+        
         if len(tokens) < 2:
             continue
         elif tokens[0] == "Chain":
@@ -64,6 +64,7 @@ def read_Iptables():
                 mylist_output.append(tokens)                
         else:
             if flag == 'i':
+                print "Here"
                 special_input.append(tokens[3])
             elif flag == 'f':
                 continue
@@ -76,7 +77,7 @@ def read_Iptables():
 
 def Find_special_chain(chain):
     
-    text_file = open('LDS_test.txt', 'r')
+    text_file = open('hana1.txt', 'r')
     printing = False
     chain_list = []
     name = None
@@ -96,9 +97,9 @@ def Find_special_chain(chain):
                 pass
             else:
                 chain_list.append((name,line))
-            
-    for k, v in chain_list:
-        for i in range(len(chain)):
+    
+    for i in range(len(chain)):        
+        for k, v in chain_list:
             if k == chain[i]:
                 shash.setdefault(k,[]).append(v)
 
@@ -107,38 +108,54 @@ def Find_special_chain(chain):
 
 def merge_special_chain(mylist_input, mylist_output, special_input, special_output,shash):
 
-    print type(shash)
-    print shash.keys()
+    print special_input
     flag = False
+    mylist_input_final = mylist_input
+    mylist_output_final = mylist_output
     
     for entry in shash:
         for i in range(len(shash[entry])):
             tokens =  re.split(r"[' ']+", shash[entry][i])
             for key in shash.keys():
-                if tokens[3] == key:
+                if len(tokens) < 2:
+                    continue
+                elif tokens[3] == key:
                     shash[entry].extend(shash[tokens[3]])
 
     
     for entry in shash:
         for i in range(len(shash[entry])):
             tokens =  re.split(r"[' ']+", shash[entry][i])
-            if entry in special_output:
-                mylist_output.extend(tokens)
-            elif entry in special_input:
-                for key in shash.keys():
-                    if tokens[3] == key:
-                        pass
+            for key in shash.keys():
+                if entry in special_output:
+                    if len(tokens) < 2:
+                        continue
+                    elif tokens[3] == key:
+                        continue
                     else:
-                        mylist_input.extend(tokens)
-                
+                        if tokens in mylist_output_final:
+                            continue
+                        else:
+                            mylist_output_final.append(tokens)
+                if entry in special_input:
+                    if len(tokens) < 2:
+                        continue
+                    elif tokens[3] == key:
+                        continue
+                    else:
+                        if tokens in mylist_input_final:
+                            continue
+                        else:
+                            mylist_input_final.append(tokens)
     
-    return mylist_output, mylist_input
-
+                    
+    return mylist_output_final, mylist_input_final
     
 
 
 
-    
 mylist_input, mylist_output, special_input, special_output, chain = read_Iptables()
 shash = Find_special_chain(chain)
-merge_special_chain(mylist_input, mylist_output, special_input, special_output,shash)
+mylist_output_final, mylist_input_final = merge_special_chain(mylist_input, mylist_output, special_input, special_output,shash)
+
+print mylist_input_final

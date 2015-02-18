@@ -105,7 +105,7 @@ def post_Services(reqbody):
         respbody =  response.read().decode('ascii', 'ignore')
     connection.close()
 
-def post_interfaces(reqbody):
+def post_Interfaces(reqbody):
     connection.request("POST", "/v1/firewall_interfaces",json.dumps(reqbody),tokenheader)
     response = connection.getresponse()
     respbody =  response.read().decode('ascii', 'ignore')

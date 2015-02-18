@@ -1,5 +1,5 @@
 def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface):
-
+    print mylist_input
     policy ={}
     policy_count = 0 #for naming 
     
@@ -14,6 +14,8 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
         Service_id = None
         service_name =None
         interface_id = None
+        states = None
+        print line
         if line[3] == "LOG":
             store = line[8]
             continue
@@ -24,6 +26,7 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
 
         if line[8] == "0.0.0.0/0":
             line[8] = "any"
+            print "ANNNNNNY"
         for k, v in latest_IP:
             if line[8] == k:
                 IP_id = v
