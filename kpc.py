@@ -48,11 +48,11 @@ def create_IPzone(mylist_input, mylist_output, existing_IP):
                 zone['firewall_zone'].append(dict1)
     
     for line in mylist_output:
-        if line[8] not in existing_IP.values():
+        if line[9] not in existing_IP.values():
             match = False
             if zone_count == 0:
                 match = True
-                dict1 ={'name': line[8], 'ip_address':line[8]}
+                dict1 ={'name': line[9], 'ip_address':line[9]}
                 zone['firewall_zone'].append(dict1)
 #                print zone['firewall_zone']    
                 zone_count = zone_count + 1
@@ -62,7 +62,7 @@ def create_IPzone(mylist_input, mylist_output, existing_IP):
                         match = True
 
             if match == False:
-                dict1 ={'name': line[8], 'ip_address':line[8]}
+                dict1 ={'name': line[9], 'ip_address':line[9]}
                 zone['firewall_zone'].append(dict1)
              
     return zone

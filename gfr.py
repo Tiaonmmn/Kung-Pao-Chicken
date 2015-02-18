@@ -34,9 +34,6 @@ interfaces = create_networkInterface(mylist_input_final,mylist_output_final,exis
 policies = create_Policy(mylist_input_final, mylist_output_final, latest_IP, latest_Service, latest_Interface)
 print json.dumps(policies, indent = 4 )
 
-print zones
-
-    
 post_IPzones(zones)
 post_Interfaces(interfaces)
 post_Services(services)
