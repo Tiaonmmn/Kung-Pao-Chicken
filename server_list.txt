@@ -1,1 +1,1 @@
-192.168.33.10 vagrant vagrant
+10.197.117.50 ec2-user  
