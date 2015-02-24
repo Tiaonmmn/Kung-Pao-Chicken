@@ -94,27 +94,27 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                         dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
                         service.append(dict1)
             
-            elif ("icmptype" in line[i]):
-                port = line[i+1].strip('\n')
-                protocol = line[4].upper()
-                if port == "0":
-                   port = None
-                if (port, protocol) not in existing_Service:
-                    match = False
-                    print port, protocol
-                    if service_count == 0:
-                        match = True
-                        dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
-                        service.append(dict1)
-                        service_count = service_count + 1
-                    else:
-                        for i in range(service_count):
-                            if (protocol +"/" + port) == dict1['name']:
-                                match = True
-                                    
-                    if match == False:
-                            dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
-                            service.append(dict1)
+            #elif ("icmptype" in line[i]):
+            #    port = line[i+1].strip('\n')
+            #    protocol = line[4].upper()
+            #    if port == "0":
+            #       port = None
+            #    if (port, protocol) not in existing_Service:
+            #        match = False
+            #        print port, protocol
+            #        if service_count == 0:
+            #            match = True
+            #            dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
+            #            service.append(dict1)
+            #            service_count = service_count + 1
+            #        else:
+            #            for i in range(service_count):
+            #                if (protocol +"/" + port) == dict1['name']:
+            #                    match = True
+            #                        
+            #        if match == False:
+            #                dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
+            #                service.append(dict1)
                             
             elif ("multiport" in line[i]):
                 port = line[i+2]
@@ -156,27 +156,27 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                             dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
                             service.append(dict1)
                 
-                elif ("icmptype" in line[i]):
-                    port = line[i+1].strip('\n')
-                    protocol = line[4].upper()
-                    if port == "0":
-                       port = None
-                    if (port, protocol) not in existing_Service:
-                        match = False
-                        print port, protocol
-                        if service_count == 0:
-                            match = True
-                            dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
-                            service.append(dict1)
-                            service_count = service_count + 1
-                        else:
-                            for i in range(service_count):
-                                if (protocol +"/" + port) == dict1['name']:
-                                    match = True
-                                        
-                        if match == False:
-                                dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
-                                service.append(dict1)
+                #elif ("icmptype" in line[i]):
+                #    port = line[i+1].strip('\n')
+                #    protocol = line[4].upper()
+                #    if port == "0":
+                #       port = None
+                #    if (port, protocol) not in existing_Service:
+                #        match = False
+                #        print port, protocol
+                #        if service_count == 0:
+                #            match = True
+                #            dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
+                #            service.append(dict1)
+                #            service_count = service_count + 1
+                #        else:
+                #            for i in range(service_count):
+                #                if (protocol +"/" + port) == dict1['name']:
+                #                    match = True
+                #                        
+                #        if match == False:
+                #                dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
+                #                service.append(dict1)
                                 
                 elif ("multiport" in line[i]):
                     port = line[i+2]

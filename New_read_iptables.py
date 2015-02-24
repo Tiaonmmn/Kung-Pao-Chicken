@@ -2,17 +2,13 @@ import re
 import json
 import collections
 import re
-#def read_Iptables()
 
-#    text_file = open('LDS_test.txt', 'r')
-#    chain = iptc.Chain(iptc.Table(iptc.Table.FILTER), "INPUT")
-#    chain = iptc.Chain(iptc.pyTable(iptc.Table.FILTER), "OUTPUT")
-
-
+#read the text file and generate input, output and chain for special cases 
 def read_Iptables():
     mylist_input =[]
     mylist_output =[]
     chain = []
+    exclude_forward = []
     text_file = open('hana1.txt', 'r')
 
     for line in text_file:
@@ -25,6 +21,7 @@ def read_Iptables():
                 flag = 'i'
             elif tokens[1] == "FORWARD":
                 flag = 'f'
+                exclude_forward.append(line)
             elif tokens[1] == "OUTPUT":
                 flag = 'o'
             else:
@@ -36,14 +33,15 @@ def read_Iptables():
             if flag == 'i':
                 mylist_input.append(tokens)             
             elif flag == 'f':
+                exclude_forward.append(line)
                 continue
             elif flag == 'o':
                 mylist_output.append(tokens)             
         if flag == 'x':
             print "flag=x.  something's wrong"
-    return mylist_input, mylist_output,chain
+    return mylist_input, mylist_output,chain, exclude_forward
 
-
+#finding the speical chain and collect all the firewall rules they have 
 def Find_special_chain(chain):
     
     text_file = open('hana1.txt', 'r')
@@ -81,8 +79,8 @@ def merge_special_chain(mylist_input, mylist_output,shash):
     mylist_input_final = []
     mylist_output_final = []
     token_hash = {}
-    count = 0
-    print mylist_input
+    
+    
     # this is for special cases. for nested firewall chain
     for entry in shash:
         for i in range(len(shash[entry])):
@@ -100,9 +98,8 @@ def merge_special_chain(mylist_input, mylist_output,shash):
             print tokens
             token_hash.setdefault(entry,[]).append(tokens)            
     
-    print json.dumps(token_hash, indent = 2)
-    for i in range(len(mylist_input)):
-        
+    #append spcial chain to mylist_input in order
+    for i in range(len(mylist_input)):        
         if mylist_input[i][3] != "ACCEPT" or mylist_input[i][3] != "REJECT" or mylist_input[i][3] != "LOG" or mylist_input[i][3] != "DROP":
             mylist_input_final.append(mylist_input[i])
             for value in token_hash[mylist_input[i][3]]:
@@ -113,6 +110,7 @@ def merge_special_chain(mylist_input, mylist_output,shash):
         else:
             mylist_input_final.append(mylist_input[i])
             
+    #append special chain to mylist_output in order        
     for i in range(len(mylist_output)):
         if mylist_output[i][3] != "ACCEPT" or mylist_output[i][3] != "REJECT" or mylist_output[i][3] != "LOG" or mylist_output[i][3] != "DROP":
             mylist_output_final.append(mylist_output[i])
@@ -123,35 +121,6 @@ def merge_special_chain(mylist_input, mylist_output,shash):
                     mylist_output_final.append(value)
         else:
             mylist_output_final.append(mylist_output[i])            
-            
-    #    for key in token_hash.keys():
-    #        print "+++++++"
-    #        print key
-    #        print mylist_input[i][3]
-    #        print "+++++++"
-    #        if key == mylist_input[i][3]:
-    #            for value in token_hash[key]:
-    #                if len(value) < 2:
-    #                    continue
-    #                else:
-    #                    mylist_input_final.append(value)
-    #                    print value
-    #        else:
-    #            mylist_input_final.append(mylist_input[i])
-    #            print "!!!"
-    #            print mylist_input[i]
-    #
-    #for i in range(len(mylist_output)):
-    #    for key in token_hash.keys():
-    #        if mylist_output[i][3] == key:
-    #            for value in token_hash[key]:
-    #                if len(value) < 2:
-    #                    continue
-    #                else:
-    #                    mylist_output_final.append(value)
-    #        else:
-    #            mylist_output_final.append(mylist_output[i])
-
         
     
     return mylist_output_final, mylist_input_final
@@ -159,11 +128,6 @@ def merge_special_chain(mylist_input, mylist_output,shash):
 
 
 
-mylist_input, mylist_output,chain = read_Iptables()
-
+mylist_input, mylist_output,chain, exclude_forward = read_Iptables()
 shash = Find_special_chain(chain)
 mylist_output_final, mylist_input_final= merge_special_chain(mylist_input, mylist_output,shash)
-
-print mylist_input_final
-print "___________________"
-print mylist_output_final
