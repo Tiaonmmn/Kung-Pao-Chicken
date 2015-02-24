@@ -112,6 +112,7 @@ def post_Interfaces(reqbody):
     connection.close()
 
 def post_firewallPolicy(reqbody):
+    print "API"
     print json.dumps(reqbody, indent =2)
     connection.request("POST", "/v1/firewall_policies",json.dumps(reqbody),tokenheader)
     response = connection.getresponse()

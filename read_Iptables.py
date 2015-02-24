@@ -113,6 +113,10 @@ def merge_special_chain(mylist_input, mylist_output, special_input, special_outp
     mylist_input_final = mylist_input
     mylist_output_final = mylist_output
     
+    x = shash['spamlist']
+    print x
+    
+    print "_______"
     for entry in shash:
         for i in range(len(shash[entry])):
             tokens =  re.split(r"[' ']+", shash[entry][i])

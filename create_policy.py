@@ -6,8 +6,12 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
     rule = {}
     rule.setdefault('firewall_rules', [])
     store = None
+    comment = None
+    
     # dict1 = {'name': name, 'platform': "linux", rule}  
     # dict2 = {'chain': INPUT/OUTPUT, 'active': True, 'firewall_source': source, 'firewall_service': nameOftheService, 'firewall_interface':, 'connection_states': , 'action': ,'log': }
+    
+    
     for line in mylist_input:
         log = False
         IP_id = None
@@ -17,7 +21,6 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
         states = None
         action = None
         
-        
         if line[3] == "LOG":
             store = line[8]
             continue
@@ -25,7 +28,10 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
             action = line[3]
             if store == line[8]:
                 log = True
-
+        else:
+            comment = line[3]
+            continue
+        
         if line[8] == "0.0.0.0/0":
             line[8] = "any"
         for k, v in latest_IP:
@@ -56,7 +62,7 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
                 Service_id =v                
 
         dict2 = {'chain': "INPUT", 'active': True, 'action': action, 'firewall_interface': interface_id, 'firewall_source' : {'id': IP_id, "type":"FirewallZone"},
-                 'firewall_service' : Service_id, 'connection_states': states, 'log': log}
+                 'firewall_service' : Service_id, 'connection_states': states, 'log': log, 'comment': comment}
         rule['firewall_rules'].append(dict2)
         
     for line in mylist_output:
@@ -70,11 +76,14 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
         if line[3] == "LOG":
             store = line[8]
             continue
-        if line[3] == "ACCEPT" or line[3] == "DROP":
+        if line[3] == "ACCEPT" or line[3] == "DROP" or line[3] == "REJECT":
             action = line[3]
             if store == line[8]:
                 log = True
-
+        else:
+            comment = line[3]
+            continue
+        
         if line[9] == "0.0.0.0/0":
             line[9] = "any"
         for k, v in latest_IP:
@@ -105,10 +114,10 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
                 Service_id =v                
 
         dict2 = {'chain': "OUTPUT", 'active': True, 'action': action, 'firewall_interface': interface_id, 'firewall_source' : {'id': IP_id, "type":"FirewallZone"},
-                 'firewall_service' : Service_id, 'connection_states': states, 'log': log}
+                 'firewall_service' : Service_id, 'connection_states': states, 'log': log, 'comment': comment}
         
         rule['firewall_rules'].append(dict2)
         
-    dict1 = {'firewall_rules':rule['firewall_rules'], 'platform': 'linux', 'name': 'first_creation'}
+    dict1 = {'firewall_rules':rule['firewall_rules'], 'platform': 'linux', 'name': 'first_creation1'}
     policy = {'firewall_policy': dict1}
     return policy
