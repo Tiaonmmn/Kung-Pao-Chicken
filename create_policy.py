@@ -1,4 +1,4 @@
-def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface):
+def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface):
     policy          = {}    
     rule            = {}
     rule.setdefault('firewall_rules', [])
@@ -81,10 +81,20 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
         if skip == True:
             continue
         
-        dict2 = {'chain': "INPUT", 'active': True, 'action': action, 'firewall_interface': interface_id, 'firewall_source' : {'id': IP_id, "type":"FirewallZone"},
-                 'firewall_service' : Service_id, 'connection_states': states, 'log': log, 'comment': comment}
-        rule['firewall_rules'].append(dict2)
+        dict2 = {'chain'                : "INPUT",
+                 'active'               : True,
+                 'action'               : action,
+                 'firewall_interface'   : interface_id,
+                 'firewall_source'      : {'id': IP_id, "type":"FirewallZone"},
+                 'firewall_service'     : Service_id,
+                 'connection_states'    : states,
+                 'log'                  : log,
+                 'comment'              : comment
+                 }
         
+        rule['firewall_rules'].append(dict2)
+    
+    #Out bound firewall rules
     for line in mylist_output:
         log             = False
         IP_id           = None
@@ -92,7 +102,6 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
         service_name    = None
         interface_id    = None
         states          = None
-
         skip            = False
         
         #check LOG
@@ -155,10 +164,23 @@ def create_Policy(mylist_input,mylist_output,latest_IP, latest_Service, latest_I
             continue
      
         
-        dict2 = {'chain': "OUTPUT", 'active': True, 'action': action, 'firewall_interface': interface_id, 'firewall_source' : {'id': IP_id, "type":"FirewallZone"},
-                 'firewall_service' : Service_id, 'connection_states': states, 'log': log, 'comment': comment}
+        dict2 = {'chain'                : "OUTPUT",
+                 'active'               : True,
+                 'action'               : action,
+                 'firewall_interface'   : interface_id,
+                 'firewall_source'      : {'id': IP_id, "type":"FirewallZone"},
+                 'firewall_service'     : Service_id,
+                 'connection_states'    : states,
+                 'log'                  : log,
+                 'comment'              : comment
+                 }
+        
         rule['firewall_rules'].append(dict2)
         
-    dict1 = {'firewall_rules':rule['firewall_rules'], 'platform': 'linux', 'name': 'first_creation'}
+    dict1 = {'firewall_rules'   : rule['firewall_rules'],
+             'platform'         : 'linux',
+             'name'             : filename}
+    
     policy = {'firewall_policy': dict1}
+    
     return policy, exclude_input, exclude_output

@@ -118,3 +118,5 @@ def post_firewallPolicy(reqbody):
     respbody =  response.read().decode('ascii', 'ignore')
     connection.close()
         
+ip = get_IPzones()
+print json.dumps(ip, indent = 2)

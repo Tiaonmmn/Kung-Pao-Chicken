@@ -3,7 +3,6 @@ import json
 import collections
 import re
 import glob
-
 #read the text file and generate input, output and chain for special cases 
 def read_Iptables(filename):
     mylist_input =[]
@@ -128,13 +127,16 @@ def merge_special_chain(mylist_input, mylist_output,shash):
     return mylist_output_final, mylist_input_final
     
 
-files = []
-files = glob.glob("*.txt")
-for n in range(len(files)):
-    if files[n] != "server_list.txt":
-        mylist_input, mylist_output,chain, exclude_forward = read_Iptables(files[n])
-        shash = Find_special_chain(files[n], chain)
-        if not shash:
-            continue
-        else:		    
-            mylist_output_final, mylist_input_final= merge_special_chain(mylist_input, mylist_output,shash)
+
+#mylist_input, mylist_output, chain, exclude_forward = read_Iptables(gfr.files[n])
+
+#files = []
+#files = glob.glob("*.txt")
+#for n in range(len(files)):
+#    if files[n] != "server_list.txt":
+#        mylist_input, mylist_output,chain, exclude_forward = read_Iptables(files[n])
+#        shash = Find_special_chain(files[n], chain)
+#        if not shash:
+#            continue
+#        else:		    
+#            mylist_output_final, mylist_input_final= merge_special_chain(mylist_input, mylist_output,shash)
