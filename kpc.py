@@ -72,12 +72,13 @@ def create_IPzone(mylist_input, mylist_output, existing_IP):
 def create_networkService(mylist_input, mylist_output,existing_Service):
     service =[]
     service_count = 0
-    
+    print "kpc.py"
     for line in mylist_input:
         for i in range(len(line)):
             if (("spt" in line[i]) or ("dpt" in line[i])):
                 port = line[i].split(':')[1]
                 protocol = line[4].upper()
+                port = port.rstrip('\n')
                 if (port, protocol) not in existing_Service:
                     match = False
                     if service_count == 0:
@@ -139,6 +140,7 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
             for i in range(len(line)):
                 if (("spt" in line[i]) or ("dpt" in line[i])):
                     port = line[i].split(':')[1]
+                    port = port.rstrip('\n')
                     protocol = line[4].upper()
                     if (port, protocol) not in existing_Service:
                         match = False
@@ -174,7 +176,7 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                         if match == False:
                                 dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
                                 service.append(dict1)        
-            
+    print service        
     return service
 
 # create network interfaces 

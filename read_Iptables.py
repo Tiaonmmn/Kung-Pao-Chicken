@@ -2,24 +2,18 @@ import re
 import json
 import collections
 import re
-#def read_Iptables()
-
-#    text_file = open('LDS_test.txt', 'r')
-#    chain = iptc.Chain(iptc.Table(iptc.Table.FILTER), "INPUT")
-#    chain = iptc.Chain(iptc.pyTable(iptc.Table.FILTER), "OUTPUT")
-
-
-def read_Iptables():
+import glob
+#read the text file and generate input, output and chain for special cases 
+def read_Iptables(filename):
     mylist_input =[]
     mylist_output =[]
-    special_input =[]
-    special_output = []
     chain = []
-    text_file = open('hana1.txt', 'r')
+    exclude_forward = []
+    text_file = open(filename, 'r')
 
     for line in text_file:
         tokens = re.split(r"[' ']+", line)
-        
+        print tokens        
         if len(tokens) < 2:
             continue
         elif tokens[0] == "Chain":
@@ -27,6 +21,7 @@ def read_Iptables():
                 flag = 'i'
             elif tokens[1] == "FORWARD":
                 flag = 'f'
+                exclude_forward.append(line)
             elif tokens[1] == "OUTPUT":
                 flag = 'o'
             else:
@@ -34,50 +29,22 @@ def read_Iptables():
                 flag = ''
         elif tokens[1] == "pkts":
             continue
-        elif tokens[3] == "ACCEPT":
+        elif tokens[3] != None:
             if flag == 'i':
                 mylist_input.append(tokens)             
             elif flag == 'f':
+                exclude_forward.append(line)
                 continue
             elif flag == 'o':
                 mylist_output.append(tokens)             
-        elif tokens[3] == "REJECT":
-            if flag == 'i':
-                mylist_input.append(tokens)             
-            elif flag == 'f':
-               continue
-            elif flag == 'o':
-                mylist_output.append(tokens)             
-        elif tokens[3] == "DROP":
-            if flag == 'i':
-                mylist_input.append(tokens)             
-            elif flag == 'f':
-               continue
-            elif flag == 'o':
-                mylist_output.append(tokens)
-        elif tokens[3] == "LOG":
-            if flag == 'i':
-                mylist_input.append(tokens)             
-            elif flag == 'f':
-               continue
-            elif flag == 'o':
-                mylist_output.append(tokens)                
-        else:
-            if flag == 'i':
-                print "Here"
-                special_input.append(tokens[3])
-            elif flag == 'f':
-                continue
-            elif flag == 'o':
-                special_output.append(tokens[3])
         if flag == 'x':
             print "flag=x.  something's wrong"
-    return mylist_input, mylist_output, special_input, special_output,chain
+    return mylist_input, mylist_output,chain, exclude_forward
 
-
-def Find_special_chain(chain):
+#finding the speical chain and collect all the firewall rules they have 
+def Find_special_chain(filename, chain):
     
-    text_file = open('hana1.txt', 'r')
+    text_file = open(filename, 'r')
     printing = False
     chain_list = []
     name = None
@@ -106,17 +73,15 @@ def Find_special_chain(chain):
 
     return shash
 
-def merge_special_chain(mylist_input, mylist_output, special_input, special_output,shash):
+def merge_special_chain(mylist_input, mylist_output,shash):
 
-    print special_input
     flag = False
-    mylist_input_final = mylist_input
-    mylist_output_final = mylist_output
+    mylist_input_final = []
+    mylist_output_final = []
+    token_hash = {}
     
-    x = shash['spamlist']
-    print x
     
-    print "_______"
+    # this is for special cases. for nested firewall chain
     for entry in shash:
         for i in range(len(shash[entry])):
             tokens =  re.split(r"[' ']+", shash[entry][i])
@@ -126,40 +91,38 @@ def merge_special_chain(mylist_input, mylist_output, special_input, special_outp
                 elif tokens[3] == key:
                     shash[entry].extend(shash[tokens[3]])
 
-    
+    # tokenize each value in shash 
     for entry in shash:
         for i in range(len(shash[entry])):
             tokens =  re.split(r"[' ']+", shash[entry][i])
-            for key in shash.keys():
-                if entry in special_output:
-                    if len(tokens) < 2:
-                        continue
-                    elif tokens[3] == key:
-                        continue
-                    else:
-                        if tokens in mylist_output_final:
-                            continue
-                        else:
-                            mylist_output_final.append(tokens)
-                if entry in special_input:
-                    if len(tokens) < 2:
-                        continue
-                    elif tokens[3] == key:
-                        continue
-                    else:
-                        if tokens in mylist_input_final:
-                            continue
-                        else:
-                            mylist_input_final.append(tokens)
+            print tokens
+            token_hash.setdefault(entry,[]).append(tokens)            
     
-                    
+    #append spcial chain to mylist_input in order
+    for i in range(len(mylist_input)):        
+        if mylist_input[i][3] != "ACCEPT" or mylist_input[i][3] != "REJECT" or mylist_input[i][3] != "LOG" or mylist_input[i][3] != "DROP":
+            mylist_input_final.append(mylist_input[i])
+            print mylist_input[i]
+            for value in token_hash[mylist_input[i][3]]:
+                if len(value) < 2:
+                    continue
+                else:
+                    mylist_input_final.append(value)
+        else:
+            mylist_input_final.append(mylist_input[i])
+            
+    #append special chain to mylist_output in order        
+    for i in range(len(mylist_output)):
+        if mylist_output[i][3] != "ACCEPT" or mylist_output[i][3] != "REJECT" or mylist_output[i][3] != "LOG" or mylist_output[i][3] != "DROP":
+            mylist_output_final.append(mylist_output[i])
+            for value in token_hash[mylist_output[i][3]]:
+                if len(value) < 2:
+                    continue
+                else:
+                    mylist_output_final.append(value)
+        else:
+            mylist_output_final.append(mylist_output[i])            
+        
+    
     return mylist_output_final, mylist_input_final
     
-
-
-
-mylist_input, mylist_output, special_input, special_output, chain = read_Iptables()
-shash = Find_special_chain(chain)
-mylist_output_final, mylist_input_final = merge_special_chain(mylist_input, mylist_output, special_input, special_output,shash)
-
-print mylist_input_final

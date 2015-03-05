@@ -1,0 +1,30 @@
+Chain INPUT (policy ACCEPT 3 packets, 160 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     tcp  --  *      *       50.57.179.191        0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED
+   42 16476 ACCEPT     tcp  --  *      *       104.130.217.203      0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED
+   28 10984 ACCEPT     tcp  --  *      *       104.130.217.218      0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED
+  175 44159 ACCEPT     tcp  --  *      *       104.130.217.220      0.0.0.0/0            tcp spt:443 state RELATED,ESTABLISHED
+   42  5469 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED udp spt:53
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED tcp spt:53
+    0     0 ACCEPT     icmp --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED
+  401 33029 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+    0     0 ACCEPT     tcp  --  *      *       50.57.179.191        0.0.0.0/0            tcp dpt:443
+    5  3184 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 DROP       all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+
+Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
+
+Chain OUTPUT (policy ACCEPT 3 packets, 673 bytes)
+ pkts bytes target     prot opt in     out     source               destination         
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            50.57.179.191        tcp dpt:443
+   36  5725 ACCEPT     tcp  --  *      *       0.0.0.0/0            104.130.217.203      tcp dpt:443
+   27  7745 ACCEPT     tcp  --  *      *       0.0.0.0/0            104.130.217.218      tcp dpt:443
+  175  385K ACCEPT     tcp  --  *      *       0.0.0.0/0            104.130.217.220      tcp dpt:443
+   42  2751 ACCEPT     udp  --  *      *       0.0.0.0/0            0.0.0.0/0            udp dpt:53
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            0.0.0.0/0            tcp dpt:53
+    0     0 ACCEPT     tcp  --  *      *       0.0.0.0/0            50.57.179.191        tcp spt:443 state RELATED,ESTABLISHED
+  278 30658 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            state RELATED,ESTABLISHED
+   18  1368 ACCEPT     all  --  *      *       0.0.0.0/0            0.0.0.0/0           
+    0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable

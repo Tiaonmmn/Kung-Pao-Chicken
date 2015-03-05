@@ -25,6 +25,7 @@ connection.close()
 ################################ API GET Calls ######################################################
 
 def latest_IP():
+    print"api.pu"
     connection.request("GET", "/v1/firewall_zones",'',tokenheader)
     response = connection.getresponse()
     jsondata =  response.read().decode()
@@ -118,5 +119,4 @@ def post_firewallPolicy(reqbody):
     respbody =  response.read().decode('ascii', 'ignore')
     connection.close()
         
-ip = get_IPzones()
-print json.dumps(ip, indent = 2)
+

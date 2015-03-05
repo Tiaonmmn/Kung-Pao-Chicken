@@ -1,3 +1,4 @@
+import json
 def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface):
     policy          = {}    
     rule            = {}
@@ -8,8 +9,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
     exclude_output  = []
     # dict1 = {'name': name, 'platform': "linux", rule}  
     # dict2 = {'chain': INPUT/OUTPUT, 'active': True, 'firewall_source': source, 'firewall_service': nameOftheService, 'firewall_interface':, 'connection_states': , 'action': ,'log': }
-    
-    
+  
     for line in mylist_input:
         log             = False
         IP_id           = None
@@ -57,6 +57,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                 if (("spt" in line[i]) or ("dpt" in line[i])):
                     port = line[i].split(':')[1]
                     protocol = line[4].upper()
+                    port = port.rstrip('\n')
                     service_name = protocol + "/" + port
                 elif("icmptype" in line[i] or "type" in line[i]):
                     port = line[i+1].strip('\n')
@@ -67,7 +68,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                         protocol = line[4].upper()
                         service_name = protocol + "/" + port
                 elif("multiport" in line[i]):
-                    port = line[i+2]
+                    port = line[i+2].rstrip('\n')
                     protocol = line[4].upper()
                     service_name = protocol + "/" + port
                 if "state" in line[i]:
@@ -138,6 +139,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
             for i in range(len(line)):
                 if (("spt" in line[i]) or ("dpt" in line[i])):
                     port = line[i].split(':')[1]
+                    port = port.rstrip('\n')
                     protocol = line[4].upper()
                     service_name = protocol + "/" + port
                 elif("icmptype" in line[i] or "type" in line[i]):
@@ -149,7 +151,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                             protocol = line[4].upper()
                             service_name = protocol + "/" + port
                 elif("multiport" in line[i]):
-                    port = line[i+2]
+                    port = line[i+2].rstrip('\n')
                     protocol = line[4].upper()
                     service_name = protocol + "/" + port
                 if "state" in line[i]:
@@ -176,11 +178,11 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                  }
         
         rule['firewall_rules'].append(dict2)
-        
     dict1 = {'firewall_rules'   : rule['firewall_rules'],
              'platform'         : 'linux',
              'name'             : filename}
     
     policy = {'firewall_policy': dict1}
-    
+    print "create_policy.py"
+    print json.dumps(policy, indent =2)
     return policy, exclude_input, exclude_output
