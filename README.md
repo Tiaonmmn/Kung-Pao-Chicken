@@ -62,6 +62,6 @@ Translates existing Iptables into Halo Firewall Policies.  There are two program
 * The second program generates Halo Firewall Policies.  It opens all files in the current directory with an ".iptables" extension, and outputs files with a ".JSON" extension.
 
 ###Example:
-Assume server_list.txt contains this line:  my_server username pwd
-Running 'get_iptables.py' will get the iptables for that server and create the file my_server.iptables.
-Running 'generate_firewall_rules.py' will read my_server.iptables and output my_server.json
+Assume 'server_list.txt' contains this line:  my_server username pwd
+- Running get_iptables.py will get the iptables for my_server and create the file 'my_server.iptables'.
+- Running generate_firewall_rules.py will read 'my_server.iptables' and output 'my_server.json'
