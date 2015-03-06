@@ -14,12 +14,12 @@ Authors: *Hana Lee* - *hlee@cloudpassage.com*
 
 ###Files:
 * **README.md**   The one you're reading now...
-* **api.py**   The last stop before crossing the interwebs
-* **create_policy.py**   Creates Halo policy and i forget what.
+* **api.py**   All the api calls KPC needs.
+* **create_policy.py**   Create firewall policy.
 * **generate_firewall_rules.py**   RUN THIS ONE ~ GENERATE FIREWALL RULES.
-* **kpc.py**   Secret sauce and I forget what. (hana to please rename and fix this line...?)
+* **kpc.py**   Check existing and create new IP zones, network services and network interfaces. 
 * **read_iptables.py**   Read Iptables from current directory
-* **get_iptables.py**  Standalone program for generating iptables to be consumed by HaloFirewallPolicyGenerator
+* **get_iptables.py**  Get all existing Iptables via command lines
 * **license.txt**   The cure for insomnia
 
 ###Usage:
