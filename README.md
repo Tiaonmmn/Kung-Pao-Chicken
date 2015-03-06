@@ -14,8 +14,8 @@ Authors: *Hana Lee* - *hlee@cloudpassage.com*
 
 ###Files:
 * **README.md**   The one you're reading now...
-* **api.py**   The last stop before crossing the interwebs
-* **create_policy.py**   Creates Halo policy and i forget what.
+* **api.py**   All the api calls KPC needs.
+* **create_policy.py**   Create firewall policy.
 * **generate_firewall_rules.py**   RUN THIS ONE ~ GENERATE FIREWALL RULES.
 * **kpc.py**   Secret sauce and I forget what. (hana to please rename and fix this line...?)
 * **read_iptables.py**   Read Iptables from current directory
