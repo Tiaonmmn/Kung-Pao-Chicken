@@ -1,6 +1,7 @@
 # Kung Pao Chicken
 Version: 1.0
 Authors: *Hana Lee* - *hlee@cloudpassage.com*
+
          *David Sackmary* - *dsackmary@cloudpassage.com*
 
 ##Translates existing Iptables into Halo Firewall Policies.  There are two programs in this repo:  
