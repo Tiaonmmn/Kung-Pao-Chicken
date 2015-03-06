@@ -2,9 +2,11 @@
 import json, base64, requests, urllib, sys, argparse, httplib, collections
        
 #You can find these information on keys from HALO "[Site Administration] -> [API Keys]" page
-api_key_id = clientid           #these must be defined in config.conf
-api_secret_key = clientsecret   #these must be defined in config.conf
-host = 'api.cloudpassage.com'
+config ={}
+execfile("config.conf",config)
+api_key_id = config['clientid']           #these must be defined in config.conf
+api_secret_key = config['clientsecret']   #these must be defined in config.conf
+host = config['host']
 
 # get the access token used for the API calls 
 connection = httplib.HTTPSConnection(host)
