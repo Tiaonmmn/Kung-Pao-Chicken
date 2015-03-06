@@ -2,7 +2,7 @@
 Version: 1.0
 Authors: *Hana Lee* - *hlee@cloudpassage.com*, *David Sackmary* - *dsackmary@cloudpassage.com*
 
-#Translates Iptables into Halo Firewall Policies
+###Translates Iptables into Halo Firewall Policies
 There are two programs in this repo:  
 * The first gets iptables from a list of servers using the command: "iptables -L -n -v".  This program requires an input list of IP addresses, usernames and passwords.  If you have another way to do this, you are welcome to do so.  
 * The second program generates Halo Firewall Policies from iptables.
@@ -12,7 +12,7 @@ NOTES:
 * In order to deploy the Halo Firewall Policies generated, please reference http://www.cloudpassage.com/document_images/API_Guide/API_Guide.pdf )
 * When a Halo Firewall Policy is deployed, it will overwrite the iptables which is current on that server.
 
-##Requirements and Dependencies
+###Requirements and Dependencies
 * json
 * rest-client
 * oauth2
@@ -35,7 +35,7 @@ NOTES:
 * **kpc.py**   Check existing IP zones and create new IP zones, network services and network interfaces. 
 * **read_iptables.py**   Read Iptables from current directory
 
-##Installation 
+###Installation 
 
 Clone, download, or fork the git repo, then configure as below.
 
@@ -63,5 +63,5 @@ Translates existing Iptables into Halo Firewall Policies.  There are two program
 
 ###Example:
 Assume 'server_list.txt' contains this line:  my_server username pwd
-- Running get_iptables.py will get the iptables for my_server and create the file 'my_server.iptables'.
+- Running get_iptables.py will outputvthe file 'my_server.iptables'.
 - Running generate_firewall_rules.py will read 'my_server.iptables' and output 'my_server.json'
