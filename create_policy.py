@@ -78,6 +78,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                 if service_name == k:
                     Service_id =v
         else:
+            exclude_input.append(line)
             skip = True
         
         #define comment
@@ -170,6 +171,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                     print Service_id
                     
         else:
+            exclude_output.append(line)
             skip = True
         
         #define comment
