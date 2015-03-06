@@ -1,12 +1,11 @@
-# Kung Pao Chicken
+##Kung Pao Chicken  
 Version: 1.0
-Authors: *Hana Lee* - *hlee@cloudpassage.com*
+Authors: *Hana Lee* - *hlee@cloudpassage.com*, *David Sackmary* - *dsackmary@cloudpassage.com*
 
-         *David Sackmary* - *dsackmary@cloudpassage.com*
-
-##Translates existing Iptables into Halo Firewall Policies.  There are two programs in this repo:  
+#Translates Iptables into Halo Firewall Policies.
+There are two programs in this repo:  
 * The first gets iptables from a list of servers using the command: "iptables -L -n -v".  This program requires an input list of IP addresses, usernames and passwords.  If you have another way to do this, you are welcome to do so.  
-* The second program generates Halo Firewall Policies.
+* The second program generates Halo Firewall Policies from iptables.
 
 NOTES :  
 * This repo does not alter the servers it touches in any way.
@@ -55,14 +54,14 @@ export HALO_HOST = 'api.cloudpassage.com'
 ###Usage:
 ```
 python get_iptables.py -i server_list.txt 
-python generate_firewall_rules.py  #inputs all files in the current directory with an ".iptables" extension
+python generate_firewall_rules.py  
 ```
 
 Translates existing Iptables into Halo Firewall Policies.  There are two programs in this repo:  
 *The first gets iptables from a list of servers using the command: "iptables -L -n -v".  It outputs files in the current directory, one per server, with each file named after the server and containing the iptables for that server.  This program requires an input list of IP addresses, usernames and passwords.  This program is provided as a convenience. If you have another way to do this which you prefer, you are welcome to do so.  
-*The second program generates Halo Firewall Policies.
+*The second program generates Halo Firewall Policies.  It opens all files in the current directory with an ".iptables" extension, and outputs files with a ".JSON" extension.
 
 ###Example:
 Assume server_list.txt contains this line:  my_server username pwd
 Running 'get_iptables.py' will get the iptables for that server and create the file my_server.iptables.
-Running 'generate_firewall_rules.py' will read my_server.iptables and output to screen(???)
+Running 'generate_firewall_rules.py' will read my_server.iptables and output my_server.json
