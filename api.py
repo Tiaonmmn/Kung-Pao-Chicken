@@ -1,10 +1,9 @@
 #!/usr/bin/env python
 import json, base64, requests, urllib, sys, argparse, httplib, collections
        
-# Please edit below.  You can find these information from HALO "[Site Administration] -> [API Keys]" page
-api_key_id = "313f442e"
-api_secret_key = "4cbe23f66822b8bbc9957705e3399198"
-
+#You can find these information on keys from HALO "[Site Administration] -> [API Keys]" page
+api_key_id = clientid           #these must be defined in config.conf
+api_secret_key = clientsecret   #these must be defined in config.conf
 host = 'api.cloudpassage.com'
 
 # get the access token used for the API calls 
@@ -25,7 +24,6 @@ connection.close()
 ################################ API GET Calls ######################################################
 
 def latest_IP():
-    print"api.pu"
     connection.request("GET", "/v1/firewall_zones",'',tokenheader)
     response = connection.getresponse()
     jsondata =  response.read().decode()
@@ -118,5 +116,3 @@ def post_firewallPolicy(reqbody):
     response = connection.getresponse()
     respbody =  response.read().decode('ascii', 'ignore')
     connection.close()
-        
-
