@@ -1,10 +1,18 @@
-# Generate Firewall Rules
-Translates existing Iptables into Halo Firewall Policies
+# Kung Pao Chicken
+Version: 1.0
 
-(WARNING : Halo Firewall Policies will overwrite the current Iptables)
+Translates existing Iptables into Halo Firewall Policies.  There are two programs in this repo:  
+*The first gets iptables from a list of servers using the command: "iptables -L -n -v".  This program requires an input list of IP addresses, usernames and passwords.  If you have another way to do this, you are welcome to do so.  
+*The second program generates Halo Firewall Policies.
 
 Authors: *Hana Lee* - *hlee@cloudpassage.com*
+         *David Sackmary* - *dsackmary@cloudpassage.com*
          
+NOTES :  
+1)  This repo does not alter the servers it touches in any way.
+2)  In order to deploy the Halo Firewall Policies generated, please reference http://www.cloudpassage.com/document_images/API_Guide/API_Guide.pdf )
+3)  When a Halo Firewall Policy is deployed, it will overwrite the iptables which is current on that server.
+
 ##Requirements and Dependencies
 * json
 * rest-client
@@ -12,25 +20,25 @@ Authors: *Hana Lee* - *hlee@cloudpassage.com*
 * base64
 * glob
 
-###Files:
+###Readme & License:
 * **README.md**   The one you're reading now...
-* **api.py**   All the api calls KPC needs.
-* **create_policy.py**   Create firewall policy.
-* **generate_firewall_rules.py**   RUN THIS ONE ~ GENERATE FIREWALL RULES.
-* **kpc.py**   Check existing and create new IP zones, network services and network interfaces. 
-* **read_iptables.py**   Read Iptables from current directory
-* **get_iptables.py**  Get all existing Iptables via command lines
 * **license.txt**   The cure for insomnia
 
-###Usage:
+###Files for Getting Iptables from Servers:
+* **get_iptables.py**  RUN THIS ONE ~ will input a list of IP addresses, access those servers, retrieve their Iptables. 
+* **server_list.txt**  Sample input file for get_iptables.py  (see usage below)
 
+###Files for Generating Firewall Rules:
 
->gfr.py -s serverlist (or something like that....)
+* * **api.py**   Last stop before the internets.
+* **create_policy.py**   Routines called by generate_firewall_rules.
+* **generate_firewall_rules.py**   RUN THIS ONE ~ Generate Halo Firewall Rules
+* * **kpc.py**   Check existing IP zones and create new IP zones, network services and network interfaces. 
+* **read_iptables.py**   Read Iptables from current directory
 
 ##Installation 
 
 Clone, download, or fork the git repo, then configure as below.
-
 
 ###Configuration
 
@@ -44,14 +52,15 @@ export HALO_SECRET_KEY  = 'xxxxxxxxxxxx'
 export HALO_HOST = 'api.cloudpassage.com'
 ```
 
-Launch locally as :
+###Usage:
+>python get_iptables.py -i server_list.txt 
+>python generate_firewall_rules.py  #inputs all files in the current directory with an ".iptables" extension
 
-`./ConvertIPtablesToHaloFirewallPolicies.rb`
+Translates existing Iptables into Halo Firewall Policies.  There are two programs in this repo:  
+*The first gets iptables from a list of servers using the command: "iptables -L -n -v".  It outputs files in the current directory, one per server, with each file named after the server and containing the iptables for that server.  This program requires an input list of IP addresses, usernames and passwords.  This program is provided as a convenience. If you have another way to do this which you prefer, you are welcome to do so.  
+*The second program generates Halo Firewall Policies.
 
-
-##Usage
-
-Running Generate Firewall Rules, aka rgf.py, will input an IPtable, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
-
-coming soon:
-Running Kung Pao Chicken, aka rgf.py, will input a list of IP addresses, access those servers, retrieve their IPtables, convert the firewall rules, and use the Halo API to create Halo Firewall Policies.
+###Example:
+Assume server_list.txt contains this line:  my_server username pwd
+Running 'get_iptables.py' will get the iptables for that server and create the file my_server.iptables.
+Running 'generate_firewall_rules.py' will read my_server.iptables and output 
