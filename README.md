@@ -17,9 +17,9 @@ Authors: *Hana Lee* - *hlee@cloudpassage.com*
 * **api.py**   All the api calls KPC needs.
 * **create_policy.py**   Create firewall policy.
 * **generate_firewall_rules.py**   RUN THIS ONE ~ GENERATE FIREWALL RULES.
-* **kpc.py**   Secret sauce and I forget what. (hana to please rename and fix this line...?)
+* **kpc.py**   Check existing and create new IP zones, network services and network interfaces. 
 * **read_iptables.py**   Read Iptables from current directory
-* **get_iptables.py**  Standalone program for generating iptables to be consumed by HaloFirewallPolicyGenerator
+* **get_iptables.py**  Get all existing Iptables via command lines
 * **license.txt**   The cure for insomnia
 
 ###Usage:
