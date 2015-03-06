@@ -1,5 +1,5 @@
 # Generate Firewall Rules
-Translates Iptables into Halo Firewall Policies
+Translates existing Iptables into Halo Firewall Policies
 
 (WARNING : Halo Firewall Policies will overwrite the current Iptables)
 
@@ -10,15 +10,16 @@ Authors: *Hana Lee* - *hlee@cloudpassage.com*
 * rest-client
 * oauth2
 * base64
+* glob
 
 ###Files:
 * **README.md**   The one you're reading now...
 * **api.py**   The last stop before crossing the interwebs
 * **create_policy.py**   Creates Halo policy and i forget what.
-* **gfr.py**   RUN THIS ONE ~ GENERATE FIREWALL RULES.
+* **generate_firewall_rules.py**   RUN THIS ONE ~ GENERATE FIREWALL RULES.
 * **kpc.py**   Secret sauce and I forget what. (hana to please rename and fix this line...?)
-* **read_Iptables.py**   Read Iptables from current directory
-* *iptables.py**  Standalone program for generating iptables to be consumed by HaloFirewallPolicyGenerator
+* **read_iptables.py**   Read Iptables from current directory
+* **get_iptables.py**  Standalone program for generating iptables to be consumed by HaloFirewallPolicyGenerator
 * **license.txt**   The cure for insomnia
 
 ###Usage:
