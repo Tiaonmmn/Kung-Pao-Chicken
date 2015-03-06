@@ -4,7 +4,6 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
     rule            = {}
     rule.setdefault('firewall_rules', [])
     store           = None
-    comment         = None
     exclude_input   = []
     exclude_output  = []
     # dict1 = {'name': name, 'platform': "linux", rule}  
@@ -18,7 +17,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
         interface_id    = None
         states          = None
         action          = None
-        
+        comment         = None
         skip            = False
         
         #check LOG
@@ -34,7 +33,6 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
             if store == line[8]:
                 log = True
         else:   
-            comment = line[3]
             exclude_input.append(line)
             skip = True
         
@@ -61,12 +59,15 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                     service_name = protocol + "/" + port
                 elif("icmptype" in line[i] or "type" in line[i]):
                     port = line[i+1].strip('\n')
-                    if port != "0" or port != "8" or port != "13" or port != "17":
+                    if port != "0" and port != "8" and port != "13"and port != "17":
+                        #print line
                         exclude_input.append(line)
                         skip = True
                     else:    
                         protocol = line[4].upper()
                         service_name = protocol + "/" + port
+                        #print service_name
+                        #print skip
                 elif("multiport" in line[i]):
                     port = line[i+2].rstrip('\n')
                     protocol = line[4].upper()
@@ -78,6 +79,11 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                     Service_id =v
         else:
             skip = True
+        
+        #define comment
+        for i in range(len(line)):
+            if "comment:" in line[i]:
+                comment = line[i].split(':')[1]    
         
         if skip == True:
             continue
@@ -103,6 +109,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
         service_name    = None
         interface_id    = None
         states          = None
+        comment         = None
         skip            = False
         
         #check LOG
@@ -117,7 +124,6 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
             if store == line[8]:
                 log = True
         else:
-            comment = line[3]
             exclude_output.append(line)
             skip = True
             
@@ -144,7 +150,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                     service_name = protocol + "/" + port
                 elif("icmptype" in line[i] or "type" in line[i]):
                         port = line[i+1].strip('\n')
-                        if port != "0" or port != "8" or port != "13" or port != "17":
+                        if port != "0" and port != "8" and port != "13" and port != "17":
                             exclude_output.append(line)
                             skip = True
                         else:    
@@ -154,18 +160,27 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                     port = line[i+2].rstrip('\n')
                     protocol = line[4].upper()
                     service_name = protocol + "/" + port
+                    print service_name
                 if "state" in line[i]:
                     states = line[i+1].strip('\n')
             for k, v in latest_Service:
                 if service_name == k:
-                    Service_id =v                 
+                    print service_name
+                    Service_id =v
+                    print Service_id
+                    
         else:
             skip = True
+        
+        #define comment
+        for i in range(len(line)):
+            if "comment:" in line[i]:
+                comment = line[i].split(':')[1]
             
         if skip == True:
             continue
      
-        
+        #print "OUTPUT"
         dict2 = {'chain'                : "OUTPUT",
                  'active'               : True,
                  'action'               : action,
@@ -183,6 +198,6 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
              'name'             : filename}
     
     policy = {'firewall_policy': dict1}
-    print "create_policy.py"
-    print json.dumps(policy, indent =2)
+    #print "create_policy.py"
+    #print json.dumps(policy, indent =2)
     return policy, exclude_input, exclude_output

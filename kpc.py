@@ -26,17 +26,17 @@ def create_IPzone(mylist_input, mylist_output, existing_IP):
     zone = {}
     zone.setdefault('firewall_zone', [])
     zone_count = 0
-    print "EXXXXXXXXX"    
+    #print "EXXXXXXXXX"    
 
     for line in mylist_input:
-        print line[8]
+        #print line[8]
         if line[8] not in existing_IP.values():
             match = False
             if zone_count == 0:
                 match = True
                 dict1 ={'name': line[8], 'ip_address':line[8]}
                 zone['firewall_zone'].append(dict1)
-#                print zone['firewall_zone']    
+               #print zone['firewall_zone']    
                 zone_count = zone_count + 1
             else:
                 for i in range(zone_count):
@@ -54,7 +54,7 @@ def create_IPzone(mylist_input, mylist_output, existing_IP):
                 match = True
                 dict1 ={'name': line[9], 'ip_address':line[9]}
                 zone['firewall_zone'].append(dict1)
-#                print zone['firewall_zone']    
+                #print zone['firewall_zone']    
                 zone_count = zone_count + 1
             else:
                 for i in range(zone_count):
@@ -72,7 +72,9 @@ def create_IPzone(mylist_input, mylist_output, existing_IP):
 def create_networkService(mylist_input, mylist_output,existing_Service):
     service =[]
     service_count = 0
+    service_create_in_input = []
     print "kpc.py"
+    print existing_Service
     for line in mylist_input:
         for i in range(len(line)):
             if (("spt" in line[i]) or ("dpt" in line[i])):
@@ -80,11 +82,13 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                 protocol = line[4].upper()
                 port = port.rstrip('\n')
                 if (port, protocol) not in existing_Service:
+                    print port, protocol
                     match = False
                     if service_count == 0:
                         match = True
                         dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
                         service.append(dict1)
+                        service_create_in_input.append((port,protocol))
                         service_count = service_count + 1
                     else:
                         for i in range(service_count):
@@ -93,30 +97,10 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                                 
                     if match == False:
                         dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
+                        service_create_in_input.append((port,protocol))
+
                         service.append(dict1)
-            
-            #elif ("icmptype" in line[i]):
-            #    port = line[i+1].strip('\n')
-            #    protocol = line[4].upper()
-            #    if port == "0":
-            #       port = None
-            #    if (port, protocol) not in existing_Service:
-            #        match = False
-            #        print port, protocol
-            #        if service_count == 0:
-            #            match = True
-            #            dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
-            #            service.append(dict1)
-            #            service_count = service_count + 1
-            #        else:
-            #            for i in range(service_count):
-            #                if (protocol +"/" + port) == dict1['name']:
-            #                    match = True
-            #                        
-            #        if match == False:
-            #                dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
-            #                service.append(dict1)
-                            
+
             elif ("multiport" in line[i]):
                 port = line[i+2]
                 protocol = line[4].upper()
@@ -126,6 +110,7 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                         match = True
                         dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
                         service.append(dict1)
+                        service_create_in_input.append((port, protocol))
                         service_count = service_count + 1
                     else:
                         for i in range(service_count):
@@ -135,6 +120,7 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                     if match == False:
                             dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
                             service.append(dict1)
+                            service_create_in_input.append((port, protocol))
                             
     for line in mylist_output:
             for i in range(len(line)):
@@ -142,7 +128,7 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                     port = line[i].split(':')[1]
                     port = port.rstrip('\n')
                     protocol = line[4].upper()
-                    if (port, protocol) not in existing_Service:
+                    if (((port, protocol) not in existing_Service) and ((port,protocol) not in service_create_in_input)):
                         match = False
                         if service_count == 0:
                             match = True
@@ -161,7 +147,7 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                 elif ("multiport" in line[i]):
                     port = line[i+2]
                     protocol = line[4].upper()
-                    if (port, protocol) not in existing_Service:
+                    if (((port, protocol) not in existing_Service) and ((port,protocol) not in service_create_in_input)):
                         match = False
                         if service_count == 0:
                             match = True
@@ -176,7 +162,7 @@ def create_networkService(mylist_input, mylist_output,existing_Service):
                         if match == False:
                                 dict1 = {'name': protocol + "/" + port, 'protocol': protocol.lower(), 'port': port}
                                 service.append(dict1)        
-    print service        
+    #print service        
     return service
 
 # create network interfaces 
@@ -189,8 +175,8 @@ def create_networkInterface(mylist_input,mylist_output,existing_Interfaces):
             dict1 = {'name': line[6]}
             interface['firewall_interface'].append(dict1)
     for line in mylist_output:
-        print "********"
-        print line
+        #print "********"
+        #print line
         
         if len(line) < 2:
             continue

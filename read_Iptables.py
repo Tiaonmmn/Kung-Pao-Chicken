@@ -95,30 +95,31 @@ def merge_special_chain(mylist_input, mylist_output,shash):
     for entry in shash:
         for i in range(len(shash[entry])):
             tokens =  re.split(r"[' ']+", shash[entry][i])
-            print tokens
+            #print tokens
             token_hash.setdefault(entry,[]).append(tokens)            
     
     #append spcial chain to mylist_input in order
-    for i in range(len(mylist_input)):        
-        if mylist_input[i][3] != "ACCEPT" or mylist_input[i][3] != "REJECT" or mylist_input[i][3] != "LOG" or mylist_input[i][3] != "DROP":
+    for i in range(len(mylist_input)):
+        if ((mylist_input[i][3] != "ACCEPT") and (mylist_input[i][3] != "REJECT") and (mylist_input[i][3] != "LOG") and (mylist_input[i][3] != "DROP")):
             mylist_input_final.append(mylist_input[i])
-            print mylist_input[i]
             for value in token_hash[mylist_input[i][3]]:
                 if len(value) < 2:
                     continue
                 else:
+                    value.append("comment:"+mylist_input[i][3])
                     mylist_input_final.append(value)
         else:
             mylist_input_final.append(mylist_input[i])
             
     #append special chain to mylist_output in order        
     for i in range(len(mylist_output)):
-        if mylist_output[i][3] != "ACCEPT" or mylist_output[i][3] != "REJECT" or mylist_output[i][3] != "LOG" or mylist_output[i][3] != "DROP":
+        if mylist_output[i][3] != "ACCEPT" and mylist_output[i][3] != "REJECT" and mylist_output[i][3] != "LOG" and mylist_output[i][3] != "DROP":
             mylist_output_final.append(mylist_output[i])
             for value in token_hash[mylist_output[i][3]]:
                 if len(value) < 2:
                     continue
                 else:
+                    value.append("comment:"+mylist_input[i][3])
                     mylist_output_final.append(value)
         else:
             mylist_output_final.append(mylist_output[i])            
