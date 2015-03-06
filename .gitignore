@@ -1,0 +1,3 @@
+*.pyc
+*.iptables
+server_list.txt
