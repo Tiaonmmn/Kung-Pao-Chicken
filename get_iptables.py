@@ -19,6 +19,15 @@ def get_Iptables(host, id, password):
     while session.recv_ready():
         return session.recv(20000)
 
+def get_IptableSave(host, id, password):
+    trans = paramiko.Transport((host, 22))
+    trans.connect(username=id, password=password)
+    session = trans.open_channel("session")
+    session.exec_command('sudo iptables-save')
+    session.recv_exit_status()
+    while session.recv_ready():
+        return session.recv(20000)
+
 ### Begin Execution ###
 parser = argparse.ArgumentParser()
 parser.add_argument('--input', '-i', action='store', default='./server_list.txt',
@@ -33,6 +42,15 @@ for server in server_list:
 
     iptables = get_Iptables(host, id, password)
     outfile = host + ".iptables"
-    file = open(outfile,"w")
-    file.write(iptables)
-    file.close()
+    
+    iptables_save = get_IptableSave(host, id, password)
+    outfile_save = host + ".saves"
+    
+    iptable_file = open(outfile,"w")
+    iptable_file.write(iptables)    
+    
+    iptable_save_file = open(outfile_save, "w")
+    iptable_save_file.write(iptables_save)
+
+    iptable_file.close()
+    iptable_save_file.close()

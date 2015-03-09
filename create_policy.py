@@ -1,4 +1,7 @@
 import json
+from collections import OrderedDict
+
+
 def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service, latest_Interface):
     policy          = {}    
     rule            = {}
@@ -6,9 +9,9 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
     store           = None
     exclude_input   = []
     exclude_output  = []
-    # dict1 = {'name': name, 'platform': "linux", rule}  
-    # dict2 = {'chain': INPUT/OUTPUT, 'active': True, 'firewall_source': source, 'firewall_service': nameOftheService, 'firewall_interface':, 'connection_states': , 'action': ,'log': }
-  
+    count_input     = 0
+    count_output    = 0
+    
     for line in mylist_input:
         log             = False
         IP_id           = None
@@ -19,10 +22,12 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
         action          = None
         comment         = None
         skip            = False
+       
         
         #check LOG
         if line[3] == "LOG":
             store = line[8]
+            count_input = count_input + 1
             continue
         
         
@@ -32,8 +37,9 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
             action = line[3]
             if store == line[8]:
                 log = True
-        else:   
-            exclude_input.append(line)
+        elif log == False:
+            print "3"
+            exclude_input.append(count_input)
             skip = True
         
         #define source
@@ -60,8 +66,8 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                 elif("icmptype" in line[i] or "type" in line[i]):
                     port = line[i+1].strip('\n')
                     if port != "0" and port != "8" and port != "13"and port != "17":
-                        #print line
-                        exclude_input.append(line)
+                        print "4"
+                        exclude_input.append(count_input)
                         skip = True
                     else:    
                         protocol = line[4].upper()
@@ -78,9 +84,10 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                 if service_name == k:
                     Service_id =v
         else:
-            exclude_input.append(line)
+            exclude_input.append(count_input)
             skip = True
         
+        count_input = count_input + 1
         #define comment
         for i in range(len(line)):
             if "comment:" in line[i]:
@@ -112,10 +119,11 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
         states          = None
         comment         = None
         skip            = False
-        
+
         #check LOG
         if line[3] == "LOG":
             store = line[8]
+            count_output = count_output + 1
             continue
         
         #define action. if it's not an action then it's one of the special chain.
@@ -124,8 +132,8 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
             action = line[3]
             if store == line[8]:
                 log = True
-        else:
-            exclude_output.append(line)
+        elif log !=False:
+            exclude_output.append(count_output)
             skip = True
             
        # define destination 
@@ -152,7 +160,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                 elif("icmptype" in line[i] or "type" in line[i]):
                         port = line[i+1].strip('\n')
                         if port != "0" and port != "8" and port != "13" and port != "17":
-                            exclude_output.append(line)
+                            exclude_output.append(count_output)
                             skip = True
                         else:    
                             protocol = line[4].upper()
@@ -171,8 +179,9 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
                     print Service_id
                     
         else:
-            exclude_output.append(line)
+            exclude_output.append(count_output)
             skip = True
+        count_output = count_output + 1
         
         #define comment
         for i in range(len(line)):
@@ -200,6 +209,7 @@ def create_Policy(filename, mylist_input,mylist_output,latest_IP, latest_Service
              'name'             : filename}
     
     policy = {'firewall_policy': dict1}
-    #print "create_policy.py"
-    #print json.dumps(policy, indent =2)
+    
+    exclude_input  = list(OrderedDict.fromkeys(exclude_input))
+    exclude_output = list(OrderedDict.fromkeys(exclude_output))
     return policy, exclude_input, exclude_output

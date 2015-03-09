@@ -4,7 +4,7 @@ Authors: *Hana Lee* - *hlee@cloudpassage.com*, *David Sackmary* - *dsackmary@clo
 
 ###Translates Iptables into Halo Firewall Policies
 There are two programs in this repo:  
-* The first gets iptables from a list of servers using the command: "iptables -L -n -v".  This program requires an input list of IP addresses, usernames and passwords.  If you have another way to do this, you are welcome to do so.  
+* The first gets iptables from a list of servers using the command: "iptables -L -n -v" and "iptables-save".  This program requires an input list of IP addresses, usernames and passwords.  
 * The second program generates Halo Firewall Policies from iptables.
 
 NOTES:  
@@ -18,6 +18,7 @@ NOTES:
 * oauth2
 * base64
 * glob
+* re
 
 ###Readme & License:
 * **README.md**   The one you're reading now...
@@ -58,8 +59,9 @@ python generate_firewall_rules.py
 ```
 
 Translates existing Iptables into Halo Firewall Policies.  There are two programs in this repo:  
-* The first gets iptables from a list of servers using the command: "iptables -L -n -v".  It outputs files in the current directory, one per server, with each file named after the server and containing the iptables for that server.  This program requires an input list of IP addresses, usernames and passwords.  This program is provided as a convenience. If you have another way to do this which you prefer, you are welcome to do so.  
-* The second program generates Halo Firewall Policies.  It opens all files in the current directory with an ".iptables" extension, and outputs files with a ".JSON" extension.
+* The first gets iptables from a list of servers using the command: "iptables -L -n -v" and "iptables-save.  It outputs files in the current directory, one per server, with each file named after the server and containing the iptables for that server.  This program requires an input list of IP addresses, usernames and passwords.  This program is provided as a convenience. If you have another way to do this which you prefer, you are welcome to do so.  
+* The second program generates Halo Firewall Policies.  It opens all files in the current directory with an ".iptables" and ".saves" extension, and outputs files with a ".JSON" extension.
+* After running generate_firewall_policy.py, a report - exclude.txt - will be generated. The report includes all the command line for iptables logs that weren't unable to transforming into Halo.
 
 ###Example:
 Assume 'server_list.txt' contains this line:  my_server username pwd

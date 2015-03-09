@@ -3,6 +3,29 @@ import json
 import collections
 import re
 import glob
+
+
+#read iptable-save file
+def read_IptableSave(save_filename):
+    save_input   = []
+    save_output  = []
+    save_forward = []
+    text_file    = open(save_filename, 'r')
+
+    for line in text_file:
+        tokens = re.split(r"[' ']+", line)
+        print tokens
+        if tokens[0] == "-A":
+            if tokens[1] == "INPUT":
+                save_input.append(line)
+            elif tokens[1] == "OUTPUT":
+                save_output.append(line)
+            elif tokens[1] == "FORWARD":
+                save_forward.append(line)
+    return save_input, save_output, save_forward
+
+
+
 #read the text file and generate input, output and chain for special cases 
 def read_Iptables(filename):
     mylist_input =[]
