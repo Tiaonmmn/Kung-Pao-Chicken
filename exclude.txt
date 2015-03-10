@@ -1,51 +1,40 @@
-File name: 192.168.33.10.iptables
-INBOUND
-No excluding Inbound rules 
-OUTBOUND 
-No excluding Outbound rules 
-FORWARD CHAIN 
-Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
-
-    0     0 REJECT     all  --  *      *       0.0.0.0/0            0.0.0.0/0            reject-with icmp-port-unreachable
-
-
-File name: 192.168.33.11.iptables
-INBOUND
-No excluding Inbound rules 
-OUTBOUND 
-No excluding Outbound rules 
-FORWARD CHAIN 
-Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
-
-
-File name: hana1.iptables
-INBOUND
-['', '95M', '28G', 'spamlist', 'all', '--', '*', '*', 'any', '0.0.0.0/0', '\n']
-['', '94M', '28G', 'RHFirewall1INPUT', 'all', '--', '*', '*', 'any', '0.0.0.0/0', '\n']
-['', '70582', '7463K', 'ACCEPT', 'icmp', '--', '*', '*', 'any', '0.0.0.0/0', 'icmp', 'type', '255', '\n', 'comment:RHFirewall1INPUT']
-['', '0', '0', 'ACCEPT', 'esp', '--', '*', '*', 'any', '0.0.0.0/0', '\n', 'comment:RHFirewall1INPUT']
-['', '0', '0', 'ACCEPT', 'ah', '--', '*', '*', 'any', '0.0.0.0/0', '\n', 'comment:RHFirewall1INPUT']
-OUTBOUND 
-['', '105M', '52G', 'spamlist', 'all', '--', '*', '*', '0.0.0.0/0', 'any', '\n']
-FORWARD CHAIN 
-Chain FORWARD (policy ACCEPT 0 packets, 0 bytes)
-
-    0     0 spamlist   all  --  *      *       0.0.0.0/0            0.0.0.0/0           
-
-    0     0 RHFirewall1INPUT  all  --  *      *       0.0.0.0/0            0.0.0.0/0           
-
-
-File name: iptables_test.iptables
-INBOUND
-['', '0', '0', 'LOGGING', 'all', '--', '*', '*', 'any', '0.0.0.0/0', '\n']
-['', '0', '0', 'ACCEPT', '51', '--', '*', '*', 'any', '0.0.0.0/0', '\n']
-['', '0', '0', 'ACCEPT', '20', '--', '*', '*', 'any', '0.0.0.0/0', '\n']
-['', '0', '0', 'ACCEPT', '104', '--', '*', '*', 'any', '0.0.0.0/0', '\n']
-OUTBOUND 
-No excluding Outbound rules 
-FORWARD CHAIN 
-Chain FORWARD (policy DROP 0 packets, 0 bytes)
-
-    0     0 ACCEPT     all  --  eth0   eth1    0.0.0.0/0            0.0.0.0/0           
-
-
+File Name: test.iptables
+INBOUND: 
+-A INPUT -p udp -m state --state RELATED,ESTABLISHED -m udp --sport 53 -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+OUTBOUND: 
+-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+FORWARD CHAIN: 
+-A FORWARD -j REJECT --reject-with icmp-port-unreachable 
+-A FORWARD -j REJECT --reject-with icmp-port-unreachable 
+File Name: test1.iptables
+INBOUND: 
+-A INPUT -p udp -m state --state RELATED,ESTABLISHED -m udp --sport 53 -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+OUTBOUND: 
+-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+FORWARD CHAIN: 
+-A FORWARD -j REJECT --reject-with icmp-port-unreachable 
+File Name: test2.iptables
+INBOUND: 
+-A INPUT -p udp -m state --state RELATED,ESTABLISHED -m udp --sport 53 -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A INPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+OUTBOUND: 
+-A OUTPUT -p udp -m udp --dport 53 -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+-A OUTPUT -p esp -m state --state RELATED,ESTABLISHED -j ACCEPT 
+FORWARD CHAIN: 
+-A FORWARD -j REJECT --reject-with icmp-port-unreachable 
