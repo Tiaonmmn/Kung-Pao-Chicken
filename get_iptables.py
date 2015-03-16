@@ -8,16 +8,17 @@
 ###       
 ### Note: More error checking should be done for bad/down servers.
 
-import paramiko, argparse, csv, time
+import paramiko, argparse, csv, time, os, socket
 
-def get_Iptables(host, id, password):
+def get_Iptables(host, id, pwd):
     trans = paramiko.Transport((host, 22))
-    trans.connect(username=id, password=password)
+    host_key = os.path.expanduser('~/Documents/hlee.pem')    
+    trans.connect(username=id, password= host_key)
     session = trans.open_channel("session")
     session.exec_command('sudo iptables -L -v -n')
     session.recv_exit_status()
     while not session.recv_ready():
-        time.sleep(1)
+        time.sleep(30)
     return session.recv(32768) #max buffersize supported by paramiko
 
 def get_IptableSave(host, id, password):
@@ -27,7 +28,7 @@ def get_IptableSave(host, id, password):
     session.exec_command('sudo iptables-save')
     session.recv_exit_status()
     while not session.recv_ready():
-        time.sleep(1)
+        time.sleep(30)
     return session.recv(32768) #max buffersize supported by paramiko
 
 ### Begin Execution ###
