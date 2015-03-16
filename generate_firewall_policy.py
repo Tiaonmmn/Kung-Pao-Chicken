@@ -6,7 +6,7 @@ from api import get_IPzones, get_Services, get_interfaces
 from kpc import existing_IPzone, existing_service, existing_interfaces
 from kpc import create_IPzone, create_networkService, create_networkInterface
 from api import latest_IP, latest_Service, latest_Interface, post_Services, post_IPzones, post_Services, post_Interfaces, post_firewallPolicy
-from create_policy1 import create_Policy
+from create_policy import create_Policy
 from exclude_report import exclude_result
 
 exclude_file = open("exclude.txt", "w")
