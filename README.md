@@ -25,7 +25,7 @@ NOTES:
 * **license.txt**   The cure for insomnia
 
 ###Files for Getting Iptables from Servers:
-* **get_iptables.py**  RUN THIS ONE ~ will input a list of IP addresses, access those servers, retrieve their Iptables. 
+* **get_iptables.py**  RUN THIS ONE ~ will input a list of IP addresses, access those servers, retrieve their * **get_iptables_via_ssh.py**  OR RUN THIS ONE ~ will input a list of IP addresses, access those servers, retrieve their Iptables. 
 * **server_list.txt**  Sample input file for get_iptables.py  (see usage below)
 
 ###Files for Generating Firewall Rules:
