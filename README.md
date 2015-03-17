@@ -46,7 +46,7 @@ Clone, download, or fork the git repo, then configure as below.
 You need to provide three ENV variables for your account, with the user specific api credentials
 available to you via the  CloudPassage admin view.
 
-These can be set in in the 'config.conf' file.  Simply add then numeric values for your Halo 'Key ID' and 'Secret Key' into config.conf.    (This file is listed in the .gitignore file, such that you can place your keys into config.conf and the file will never be accidentally uploaded to git.  This is our best security practice).  
+These variables can most easily be set by entering the numeric values for your Halo 'Key ID' and 'Secret Key' into the config.conf in this git.    (This file is listed in the .gitignore file, such that you can place your keys into config.conf locally and the file will never be accidentally uploaded to git.  This is our best security practice).  
 
 There are other various ways, via .bashrc , via inline , etc:
 ```
