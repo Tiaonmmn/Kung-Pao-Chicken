@@ -68,5 +68,5 @@ Translates existing Iptables into Halo Firewall Policies.  There are two program
 
 ###Example:
 Assume 'server_list.txt' contains this line:  my_server username pwd
-- Running get_iptables.py will outputvthe file 'my_server.iptables'.
-- Running generate_firewall_rules.py will read 'my_server.iptables' and install the resulting firewall policy into the Halo account specified in the config.conf file.  If there are iptable rules which cannot be converted, they will be placed into a filed named *** in the current directory
+- Running get_iptables.py will output the file 'my_server.iptables'.
+- Running generate_firewall_rules.py will read 'my_server.iptables' and install the resulting firewall policy into the Halo account specified in the config.conf file.  If there are iptable rules which cannot be converted, they will be placed into a filed named 'exclude.txt' in the current directory
