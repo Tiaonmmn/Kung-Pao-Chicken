@@ -1,6 +1,5 @@
 ### Get_iptables.py 
-### INPUT: 'server_list.txt' from the same directory,
-###         unless a different file is supplied as an arg.  
+### INPUT: 'server_list.txt' from the same directory, unless a different file is supplied as an arg.  
 ###         Each line in server_list.txt should contain 3 values:  
 ###         ip_address user pwd
 ### OUTPUT: A set of files in the same directory.
